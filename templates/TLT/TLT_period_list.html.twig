@@ -1,0 +1,52 @@
+{% extends 'TLT/TLT_base.html.twig' %}
+
+{% block body %}
+
+<div class="container-fluid">
+
+    <div class="d-flex justify-content-between mr-5 my-3 px-5">
+        <div class="d-flex justify-content-start">
+            {% if dateTimeBeginTLT['date'] is not null and dateTimeBeginTLT['date'] != '' and dateTimeBeginTLT['date'] != '01.01.1970' and dateTimeBeginTLT['time'] is not null and dateTimeBeginTLT['time'] != '' %}
+                <div>Начало ТЛТ - дата: <span class="font-weight-bold">{{ dateTimeBeginTLT['date'] }}</span></div>
+                <div class="mx-3">время: <span class="font-weight-bold">{{ dateTimeBeginTLT['time'] }}</span></div>
+            {% else %}
+                <div>Дата и время начала ТЛТ вводятся в разделе "до ТЛТ"</div>
+            {% endif %}
+        </div>
+        <a class="btn btn-warning btn-sm ml-3" href="{{ baseUrl }}/tlt/tlt">Посмотреть заполненную анкету</a>
+    </div>
+
+    <section class="py-3 d-flex flex-wrap">
+
+    {% for key in periodArray|keys %}
+     <form action="{{ baseUrl }}/tlt/form" method="get">
+
+        <div class="form-group">
+            <input hidden name="period" value="{{ key }}">
+                <div class="d-flex justify-content-center">
+                    <button class="btn
+                    {% if periodArray[key]['isExist'] is same as true and periodArray[key]['isCompleted'] is same as true %}
+                    btn-success
+                    {% elseif periodArray[key]['isExist'] is same as true and periodArray[key]['isCompleted'] is same as false %} %}
+                    btn-danger
+                    {% else %}
+                    btn-primary
+                    {% endif %}
+                    btn-sm ml-3" type="submit">
+                        <div class="font-weight-bold">{{ periodArray[key]['title'] }}</div>
+                        {% if periodArray[key]['onlyAd'] is not defined  %}
+                            <div>контроль всех показателей</div>
+                        {% else %}
+                            <div>только контроль АД</div>
+                        {% endif %}
+                    </button>
+                </div>
+            </div>
+     </form>
+     {% endfor %}
+
+    </section>
+
+</div>
+
+{% endblock %}

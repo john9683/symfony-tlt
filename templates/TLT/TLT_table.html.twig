@@ -1,0 +1,60 @@
+{% extends 'TLT/TLT_base.html.twig' %}
+
+{% block body %}
+
+<div class="container-fluid">
+
+    <div class="d-flex justify-content-end mr-5 mb-3">
+        <a class="btn btn-outline-primary btn-sm ml-3 btn-now-frame" href="{{ baseUrl }}/tlt/period-list">Вернуться к выбору периода</a>
+    </div>
+
+    {% if data %}
+
+        <p class="h6 text-center">Шкала Инсульта Национального Института Здоровья (NIHSS)</p>
+
+        <section class="py-3">
+            <table class="table table-hover bb-2-black">
+                {% for item in data|keys %}
+                    {% if item is same as 'Период' %}
+                        <thead class="text-center sticky">
+                        <tr>
+                            <th>{{ item }}</th>
+                            {% for value in data[item] %}
+                                <th>{{ value }}</th>
+                            {% endfor %}
+                        </tr>
+                        </thead>
+                    {% else %}
+                        <tr>
+                            <td
+                            {% if item is same as 'Общий балл' %}
+                                <td class="bg-warning text-dark"
+                            {% endif %}
+                            >{{ item }}</td>
+                            {% for value in data[item] %}
+
+                                    {% if item is same as 'Общий балл' %}
+                                        <td class="bg-warning text-dark font-weight-bold text-center">{{ value }}</td>
+                                    {% else %}
+                                        <td class="text-center">{{ value }}</td>
+                                    {% endif %}
+
+                            {% endfor %}
+                        </tr>
+                    {% endif %}
+                {% endfor %}
+            </table>
+        </section>
+    {% else %}
+
+        <p class="h5 text-center text-danger">Анкета не заполнена</p>
+
+    {% endif %}
+
+</div>
+
+<div class="d-flex justify-content-end mr-5 mb-3">
+    <button id="up" class="btn btn-primary btn-sm ml-3 btn-now-frame none">Вверх</button>
+</div>
+
+{% endblock %}
